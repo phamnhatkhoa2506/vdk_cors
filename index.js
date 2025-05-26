@@ -41,6 +41,34 @@ app.get("/env-check", (req, res) => {
     }
 });
   
+app.post("/send-notification", async (req, res) => {
+    const { token } = req.body;
+
+    if (!token) {
+        return res.status(400).send("Token không tồn tại");
+    }
+
+    console.log("📨 Gửi thông báo đến token:", token);
+
+    try {
+        const message = {
+            token,
+            notification: {
+                title: "Cảnh báo",
+                body: "Giá trị vượt ngưỡng!",
+            },
+        };
+
+        const response = await admin.messaging().send(message);
+        console.log("✅ Gửi thành công:", response);
+
+        res.send({ success: true, response });
+    } catch (error) {
+        console.error("❌ Gửi thất bại:", error);
+        res.status(500).send("Lỗi khi gửi thông báo");
+    }
+});
+
 
 // ==== Theo dõi thay đổi từ Firebase ====
 const dangerRef = db.ref("control/danger");
