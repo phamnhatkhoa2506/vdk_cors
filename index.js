@@ -32,6 +32,16 @@ app.post("/save-token", (req, res) => {
     }
 });
 
+app.get("/env-check", (req, res) => {
+    const value = process.env.FIREBASE_CONFIG_JSON;
+    if (value) {
+      res.send("✅ Biến môi trường đã được load.");
+    } else {
+      res.send("❌ Không tìm thấy biến môi trường.");
+    }
+  });
+  
+
 // ==== Theo dõi thay đổi từ Firebase ====
 const dangerRef = db.ref("control/danger");
 
