@@ -79,7 +79,8 @@ dangerRef.on("value", (snapshot) => {
 
     for (const key in data) {
         if (data[key] === true) {
-            const message = `${key.toUpperCase()} báo nguy hiểm!`;
+            const upperKey = key.toUpperCase()
+            const message = (upperKey === "TEMP") ? `Nhiệt độ cao!` : (upperKey === "HUMIDITY" ? "Độ ẩm cao!" : "Nồng độ carbon dioxide cao!");
             sendPushNotification(message);
         }
     }
@@ -93,7 +94,7 @@ function sendPushNotification(message) {
     }
 
     const notification = {
-        title: "Cảnh báo môi trường",
+        title: "CẢNH BÁO ⚠️",
         body: message,
     };
 
